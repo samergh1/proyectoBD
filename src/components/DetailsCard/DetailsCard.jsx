@@ -34,7 +34,7 @@ const product = {
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-export function DetailsCard({ openDetail, setOpenDetail }) {
+export function DetailsCard({ openDetail, setOpenDetail, producto }) {
   // const [open, setOpen] = useState(true);
   const { user, isLoadingUser } = useUserContext();
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
@@ -91,7 +91,7 @@ export function DetailsCard({ openDetail, setOpenDetail }) {
                       </div>
                       <div className="sm:col-span-8 lg:col-span-7">
                         <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
-                          {product.name}
+                          {producto.name}
                         </h2>
 
                         <section

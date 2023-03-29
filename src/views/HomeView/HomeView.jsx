@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { NavBar } from "../../components/NavBar/NavBar";
 import { useNavigate } from "react-router-dom";
 import { LoginViewUrl } from "../../constants/url";
 import { useUserContext } from "../../contexts/userContext";
 import { logout } from "../../firebase/authentication/authentication";
 import ProductCard from "../../components/ProductCard/ProductCard";
+import { SearchContext } from "../../contexts/SearchContext";
+import { Loading } from "../../components/Loading";
 import {
   addProduct,
   addSize,
@@ -13,48 +15,11 @@ import {
   getSizes,
 } from "../../firebase/products/products";
 
-const movies = [
-  {
-    id: 1,
-    title: "Camisa",
-    popularity: "sdasd",
-    original_language: "asddafsf",
-  },
-  {
-    id: 2,
-    title: "Pantalon",
-    popularity: "sdasd",
-    original_language: "asddafsf",
-  },
-  {
-    id: 3,
-    title: "sad",
-    popularity: "sdasd",
-    original_language: "asddafsf",
-  },
-  {
-    id: 4,
-    title: "dress",
-    popularity: "sdasd",
-    original_language: "asddafsf",
-  },
-  {
-    id: 9,
-    title: "dress",
-    popularity: "sdasd",
-    original_language: "asddafsf",
-  },
-  {
-    id: 6,
-    title: "dress",
-    popularity: "sdasd",
-    original_language: "asddafsf",
-  },
-];
-
 export function HomeView() {
   const navigate = useNavigate();
   const { user, isLoadingUser } = useUserContext();
+  const { loading, setQuery, products, setSelectedProduct, selectedProduct } =
+    useContext(SearchContext);
   const [page, setPage] = useState(1);
   const [option, setOption] = useState(0);
 
@@ -89,7 +54,6 @@ export function HomeView() {
       productId: "UVgHPbywvZLpjHMglIjq",
     });
     const product = await getProductById("UVgHPbywvZLpjHMglIjq");
-    console.log(product.data());
     await getSizes("UVgHPbywvZLpjHMglIjq");
     // await deleteProduct("HstXnFMZhBQSVoXVP6P1");
   };
@@ -101,6 +65,10 @@ export function HomeView() {
     //   getUpcomingMovies(page);
     // }
   }, [page, option]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -141,8 +109,8 @@ export function HomeView() {
           <h1 className=" font-sans text-xl font-semibold">Products</h1>
 
           <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {movies.map((movie) => (
-              <ProductCard movie={movie} key={movie.id} />
+            {products.map((product, productId) => (
+              <ProductCard product={product} key={productId} />
             ))}
           </div>
         </div>
