@@ -72,25 +72,25 @@ export function HomeView() {
   };
 
   const handleProduct = async () => {
-    // await addProduct({
-    //   name: "Camisa",
-    //   cost: "20",
-    //   color: "Black",
-    //   image: "jpg",
-    // });
-    // await addSize({
-    //   size: "S",
-    //   quantity: "60",
-    //   productId: "HstXnFMZhBQSVoXVP6P1",
-    // });
-    // await addSize({
-    //   size: "M",
-    //   quantity: "40",
-    //   productId: "HstXnFMZhBQSVoXVP6P1",
-    // });
-    // const product = await getProductById("HstXnFMZhBQSVoXVP6P1");
-    // console.log(product.data());
-    // await getSizes("HstXnFMZhBQSVoXVP6P1");
+    await addProduct({
+      name: "Camisa",
+      cost: "20",
+      color: "Black",
+      image: "jpg",
+    });
+    await addSize({
+      size: "S",
+      quantity: "60",
+      productId: "UVgHPbywvZLpjHMglIjq",
+    });
+    await addSize({
+      size: "M",
+      quantity: "40",
+      productId: "UVgHPbywvZLpjHMglIjq",
+    });
+    const product = await getProductById("UVgHPbywvZLpjHMglIjq");
+    console.log(product.data());
+    await getSizes("UVgHPbywvZLpjHMglIjq");
     // await deleteProduct("HstXnFMZhBQSVoXVP6P1");
   };
 
@@ -105,9 +105,9 @@ export function HomeView() {
   return (
     <>
       <button onClick={handleProduct}>Add product</button>
-      <div class="flex justify-center pt-10">
-        <div class="mb-3 xl:w-96">
-          <div class="relative flex w-full flex-wrap items-stretch">
+      <div className="flex justify-center pt-10">
+        <div className="mb-3 xl:w-96">
+          <div className="relative flex w-full flex-wrap items-stretch">
             <input
               type="search"
               className="relative m-0 -mr-px block w-[1%] min-w-0 flex-auto rounded-l border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-1.5 text-base font-normal text-neutral-700 outline-none transition duration-300 ease-in-out focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none "

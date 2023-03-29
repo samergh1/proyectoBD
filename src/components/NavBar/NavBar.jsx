@@ -39,9 +39,14 @@ export function NavBar() {
           {!isLoadingUser && !!user ? (
             <div className="flex gap-6 text-black font-bold items-center">
               {user.admin ? (
-                <UilPlusCircle className="text-indigo-500" />
+                <UilPlusCircle className="text-indigo-500 cursor-pointer" />
               ) : (
-                <UilShoppingCart className="text-indigo-500" />
+                <UilShoppingCart
+                  className="text-indigo-500 cursor-pointer"
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                />
               )}
               <p>{user.name}</p>
               <div>
