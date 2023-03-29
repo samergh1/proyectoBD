@@ -12,16 +12,19 @@ import {
   RegisterViewUrl,
 } from "./constants/url";
 import "./index.css";
+import { UserContextProvider } from "./contexts/userContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path={HomeViewUrl} element={<HomeView />} />
-        <Route path={LoginViewUrl} element={<LoginView />} />
-        <Route path={RegisterViewUrl} element={<RegisterView />} />
-        <Route path={DetailsViewUrl} element={<DetailsView />} />
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>
+  <UserContextProvider>
+    <React.StrictMode>
+      <BrowserRouter>
+        <Routes>
+          <Route path={HomeViewUrl} element={<HomeView />} />
+          <Route path={LoginViewUrl} element={<LoginView />} />
+          <Route path={RegisterViewUrl} element={<RegisterView />} />
+          <Route path={DetailsViewUrl} element={<DetailsView />} />
+        </Routes>
+      </BrowserRouter>
+    </React.StrictMode>
+  </UserContextProvider>
 );
