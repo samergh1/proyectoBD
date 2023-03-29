@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { NavBar } from "../../components/NavBar/NavBar";
 import ProductCart from "../../components/ProductCart/ProductCart";
 
 const movies = [
@@ -68,23 +68,11 @@ export function HomeView() {
     setMovies(data.results);
   };
 
-  const getUpcomingMovies = async (page) => {
-    const { data } = await fetchUpcomingMovies(page);
-    setMovies(data.results);
-  };
-
   const handleCommonMovies = () => {
     if (option === 1) {
       setPage(1);
       getMovies(page);
       setOption(0);
-    }
-  };
-  const handleUpcomingMovies = () => {
-    if (option === 0) {
-      setPage(1);
-      getUpcomingMovies(page);
-      setOption(1);
     }
   };
 
@@ -97,55 +85,92 @@ export function HomeView() {
   }, [page, option]);
 
   return (
-    <div className="bg-white">
-      <div className="mx-auto max-w-2xl pt-16  pb-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-        <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {movies.map((movie) => (
-            <ProductCart movie={movie} key={movie.id} />
-          ))}
+    <>
+      <div class="flex justify-center">
+        <div class="mb-3 xl:w-96">
+          <div class="relative mb-4 flex w-full flex-wrap items-stretch">
+            <input
+              type="search"
+              class="relative m-0 -mr-px block w-[1%] min-w-0 flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-1.5 text-base font-normal text-neutral-700 outline-none transition duration-300 ease-in-out focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:text-neutral-200 dark:placeholder:text-neutral-200"
+              placeholder="Search"
+              ariaLabel="Search"
+              ariaDescribedby="button-addon1"
+            />
+            <button
+              class="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
+              type="button"
+              id="button-addon1"
+              data-te-ripple-init
+              data-te-ripple-color="light"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                class="h-5 w-5"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
-      <div className="gap-3 sm:gap-0 float-center">
-        {/* Pages */}
-        <div className="flex gap-4 justify-center items-center py-5 px-10 ">
-          <ul className="inline-flex -space-x-px items-center">
-            <li>
-              <button
-                disabled={page === 1}
-                onClick={handlePrev}
-                className="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 disabled:bg-gray-100"
-              >
-                Anterior
-              </button>
-            </li>
-            {page >= 2 ? (
+      <div className="bg-white">
+        <div className="mx-auto max-w-2xl pt-16  pb-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+          <h1>Products</h1>
+
+          <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            {movies.map((movie) => (
+              <ProductCart movie={movie} key={movie.id} />
+            ))}
+          </div>
+        </div>
+        <div className="gap-3 sm:gap-0 float-center">
+          {/* Pages */}
+          <div className="flex gap-4 justify-center items-center py-5 px-10 ">
+            <ul className="inline-flex -space-x-px items-center">
               <li>
-                <div className="cursor-default px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300">
-                  {page - 1}
+                <button
+                  disabled={page === 1}
+                  onClick={handlePrev}
+                  className="px-3 py-2 ml-0 leading-tight text-gray-700 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-300 hover:text-gray-700 disabled:bg-gray-100"
+                >
+                  Anterior
+                </button>
+              </li>
+              {page >= 2 ? (
+                <li>
+                  <div className="cursor-default px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300">
+                    {page - 1}
+                  </div>
+                </li>
+              ) : null}
+              <li>
+                <div className="cursor-default px-3 py-2 leading-tight text-blue-600 border border-gray-300 bg-blue-50">
+                  {page}
                 </div>
               </li>
-            ) : null}
-            <li>
-              <div className="cursor-default px-3 py-2 leading-tight text-blue-600 border border-gray-300 bg-blue-50">
-                {page}
-              </div>
-            </li>
-            <li>
-              <div className="cursor-default px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300">
-                {page + 1}
-              </div>
-            </li>
-            <li>
-              <button
-                onClick={handleNext}
-                className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                Siguiente
-              </button>
-            </li>
-          </ul>
+              <li>
+                <div className="cursor-default px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300">
+                  {page + 1}
+                </div>
+              </li>
+              <li>
+                <button
+                  onClick={handleNext}
+                  className="px-3 py-2 leading-tight text-white bg-blue-700 border border-gray-300 rounded-r-lg hover:bg-blue-900 hover:text-white "
+                >
+                  Siguiente
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
