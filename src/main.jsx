@@ -22,8 +22,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path={HomeViewUrl} element={<HomeView />} />
           <Route path={LoginViewUrl} element={<LoginView />} />
           <Route path={RegisterViewUrl} element={<RegisterView />} />
-          <Route path={DetailsViewUrl} element={<DetailsView />} />
         </Route>
+        <Route path={DetailsViewUrl} element={<DetailsView />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
