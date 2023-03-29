@@ -12,15 +12,18 @@ import {
   RegisterViewUrl,
 } from "./constants/url";
 import "./index.css";
+import { Layout } from "./views/Layout/Layout";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path={HomeViewUrl} element={<HomeView />} />
-        <Route path={LoginViewUrl} element={<LoginView />} />
-        <Route path={RegisterViewUrl} element={<RegisterView />} />
-        <Route path={DetailsViewUrl} element={<DetailsView />} />
+        <Route element={<Layout />}>
+          <Route path={HomeViewUrl} element={<HomeView />} />
+          <Route path={LoginViewUrl} element={<LoginView />} />
+          <Route path={RegisterViewUrl} element={<RegisterView />} />
+          <Route path={DetailsViewUrl} element={<DetailsView />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
