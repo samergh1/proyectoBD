@@ -10,7 +10,7 @@ import {
 import { logout } from "../../firebase/authentication/authentication";
 import { useUserContext } from "../../contexts/userContext";
 import { LoginViewUrl, RegisterViewUrl } from "../../constants/url";
-import { SearchContext } from "../../context/SearchContext";
+import { SearchContext } from "../../contexts/SearchContext";
 import { ShoppingCart } from "../ShoppingCart/ShoppingCart";
 
 export function NavBar() {

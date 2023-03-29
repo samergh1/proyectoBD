@@ -14,7 +14,7 @@ import {
 import "./index.css";
 import { UserContextProvider } from "./contexts/userContext";
 import { Layout } from "./views/Layout/Layout";
-import { SearchContextProvider } from "./context/SearchContext";
+import { SearchContextProvider } from "./contexts/SearchContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <UserContextProvider>

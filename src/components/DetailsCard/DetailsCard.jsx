@@ -5,6 +5,7 @@ import { UilStar, UilTimes } from "@iconscout/react-unicons";
 import { useNavigate } from "react-router-dom";
 import { HomeViewUrl } from "./../../constants/url";
 import { useUserContext } from "../../contexts/userContext";
+import { toast, Toaster } from "react-hot-toast";
 const product = {
   name: "Basic Tee 6-Pack ",
   price: "$192",
@@ -35,13 +36,23 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 export function DetailsCard({ openDetail, setOpenDetail }) {
-  // const [open, setOpen] = useState(true);
+  function timeout(delay) {
+    return new Promise((res) => setTimeout(res, delay));
+  }
+
+  async function handlePayment() {
+    await timeout(2000);
+    toast.success("Payment successful :)");
+    await timeout(3000);
+    setOpenDetail(false);
+  }
   const { user, isLoadingUser } = useUserContext();
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
   const navigate = useNavigate();
   return (
     <div>
+      <Toaster />
       <Transition.Root show={openDetail} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={setOpenDetail}>
           <Transition.Child
@@ -145,7 +156,7 @@ export function DetailsCard({ openDetail, setOpenDetail }) {
                             Product options
                           </h3>
 
-                          <form>
+                          <div>
                             {/* Colors */}
                             <div>
                               <h4 className="text-sm font-medium text-gray-900">
@@ -285,7 +296,9 @@ export function DetailsCard({ openDetail, setOpenDetail }) {
 
                             <div className="flex gap-3">
                               <button
-                                type="submit"
+                                onClick={() => {
+                                  !user.admin ? handlePayment() : null;
+                                }}
                                 className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                               >
                                 {user.admin ? "Delete" : "Add to bag"}
@@ -299,7 +312,7 @@ export function DetailsCard({ openDetail, setOpenDetail }) {
                                 </button>
                               ) : null}
                             </div>
-                          </form>
+                          </div>
                         </section>
                       </div>
                     </div>
