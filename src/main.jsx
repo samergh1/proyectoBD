@@ -13,18 +13,21 @@ import {
 } from "./constants/url";
 import "./index.css";
 import { Layout } from "./views/Layout/Layout";
+import { SearchContextProvider } from "./context/SearchContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path={HomeViewUrl} element={<HomeView />} />
-          <Route path={LoginViewUrl} element={<LoginView />} />
-          <Route path={RegisterViewUrl} element={<RegisterView />} />
-          <Route path={DetailsViewUrl} element={<DetailsView />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <SearchContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path={HomeViewUrl} element={<HomeView />} />
+            <Route path={LoginViewUrl} element={<LoginView />} />
+            <Route path={RegisterViewUrl} element={<RegisterView />} />
+            <Route path={DetailsViewUrl} element={<DetailsView />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </SearchContextProvider>
   </React.StrictMode>
 );

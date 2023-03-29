@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import { Dialog } from "@headlessui/react";
 import { Link } from "react-router-dom";
+import { SearchContext } from "../../context/SearchContext";
+import { ShoppingCart } from "../ShoppingCart/ShoppingCart";
 // import { UilBars, UilTimes, UilSignout } from "@iconscout/react-unicons";
 // import { logout } from "../../../firebase/authentication/authentication";
 // import { useUserContext } from "../../../context/userContext";
@@ -14,9 +16,8 @@ import { Link } from "react-router-dom";
 
 export function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // const { user, isLoadingUser } = useUserContext();
   const navigate = useNavigate();
-
+  const [open, setOpen] = useState(false);
   // const handleProfile = () => {
   //   if (user.isDoctor) {
   //     navigate(DoctorProfileUrl(user.uid));
@@ -31,19 +32,20 @@ export function NavBar() {
   // };
 
   return (
-    <header className="bg-gray-100 sticky top-0 z-50">
-      <nav
-        className="mx-auto flex max-w-7xl items-center justify-between p-6 px-6 pt-6 lg:px-8"
-        aria-label="Global"
-      >
-        <div className="flex lg:flex-1 company-logo text-[30px]">
-          <a href="#" className="-m-1.5 p-1.5 text-black">
-            e-siscom
-          </a>
-        </div>
+    <>
+      <header className="bg-gray-100 sticky top-0 z-50">
+        <nav
+          className="mx-auto flex max-w-7xl items-center justify-between p-6 px-6 pt-6 lg:px-8"
+          aria-label="Global"
+        >
+          <div className="flex lg:flex-1 company-logo text-[30px]">
+            <a href="#" className="-m-1.5 p-1.5 text-black">
+              e-siscom
+            </a>
+          </div>
 
-        {/* Mobile Menu Button */}
-        {/* 
+          {/* Mobile Menu Button */}
+          {/* 
         <div className="flex lg:hidden">
           <button
             type="button"
@@ -52,42 +54,47 @@ export function NavBar() {
           ></button>
         </div> */}
 
-        {/* Menu Options */}
-        <div className="flex gap-6 text-black font-bold">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-            />
-          </svg>
+          {/* Menu Options */}
+          <div className="flex gap-6 text-black font-bold">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
+            <button
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                />
+              </svg>
+            </button>
+            <p>Paola Márquez</p>
+          </div>
 
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-            />
-          </svg>
-          <p>Paola Márquez</p>
-        </div>
-
-        {/* User Name */}
-        {/* {!isLoadingUser && !!user ? (
+          {/* User Name */}
+          {/* {!isLoadingUser && !!user ? (
           <div className="flex items-center ml-8">
             <span
               className="mr-8 cursor-pointer text-sm py-2 px-3 block rounded-lg font-semibold leading-6 text-gray-900 hover:bg-gray-50"
@@ -131,7 +138,9 @@ export function NavBar() {
             </a>
           </div>
         )} */}
-      </nav>
-    </header>
+        </nav>
+      </header>
+      <ShoppingCart open={open} setOpen={setOpen} />
+    </>
   );
 }
