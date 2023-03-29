@@ -86,22 +86,20 @@ export function HomeView() {
 
   return (
     <>
-      <div class="flex justify-center">
+      <div class="flex justify-center pt-10">
         <div class="mb-3 xl:w-96">
-          <div class="relative mb-4 flex w-full flex-wrap items-stretch">
+          <div class="relative flex w-full flex-wrap items-stretch">
             <input
               type="search"
-              class="relative m-0 -mr-px block w-[1%] min-w-0 flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-1.5 text-base font-normal text-neutral-700 outline-none transition duration-300 ease-in-out focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:text-neutral-200 dark:placeholder:text-neutral-200"
+              class="relative m-0 -mr-px block w-[1%] min-w-0 flex-auto rounded-l border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-1.5 text-base font-normal text-neutral-700 outline-none transition duration-300 ease-in-out focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none "
               placeholder="Search"
               ariaLabel="Search"
               ariaDescribedby="button-addon1"
             />
             <button
-              class="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
+              class="relative z-[2] flex items-center rounded-r bg-primary bg-blue-600 px-6 py-2.5 text-xs hover:bg-blue-800 font-medium uppercase border border-neutral-500 leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
               type="button"
               id="button-addon1"
-              data-te-ripple-init
-              data-te-ripple-color="light"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -120,8 +118,8 @@ export function HomeView() {
         </div>
       </div>
       <div className="bg-white">
-        <div className="mx-auto max-w-2xl pt-16  pb-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-          <h1>Products</h1>
+        <div className="mx-auto max-w-2xl pt-4  pb-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+          <h1 className=" font-sans text-xl font-semibold">Products</h1>
 
           <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             {movies.map((movie) => (
