@@ -41,12 +41,7 @@ export function NavBar() {
               {user.admin ? (
                 <UilPlusCircle className="text-indigo-500" />
               ) : (
-                <UilShoppingCart
-                  className="text-indigo-500"
-                  onClick={() => {
-                    setOpen(true);
-                  }}
-                />
+                <UilShoppingCart className="text-indigo-500" />
               )}
               <p>{user.name}</p>
               <div>

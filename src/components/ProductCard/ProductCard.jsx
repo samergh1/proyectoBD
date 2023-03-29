@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { DetailsCard } from "../DetailsCard/DetailsCard";
 
 export default function ProductCard({ movie }) {
   const imgUrl = "https://image.tmdb.org/t/p/original";
   const [openDetail, setOpenDetail] = useState(false);
   return (
     <>
-      <div className="group relative" onClick={() => setOpenDetail(true)}>
+      <div className="group relative z-1" onClick={() => setOpenDetail(true)}>
         <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
           <img
             //   src={`${imgUrl}${movie.poster_path}`}
