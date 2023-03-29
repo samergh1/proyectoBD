@@ -5,7 +5,7 @@ export const SearchContext = React.createContext();
 export function SearchContextProvider({ children }) {
   const [loading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
-  const [open, setOpen] = useState([]);
+  const [open, setOpen] = useState(false);
   //   const getProducts = async () => {
   //     const data = await getProducts();
   //     setProducts(data);
@@ -20,6 +20,8 @@ export function SearchContextProvider({ children }) {
       value={{
         loading,
         setIsLoading,
+        setOpen,
+        open,
       }}
     >
       {children}

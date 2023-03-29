@@ -154,7 +154,7 @@ export function ShoppingCart({ open, setOpen }) {
                           or
                           <button
                             type="button"
-                            className="font-medium text-indigo-600 hover:text-indigo-500"
+                            className="font-medium pl-3 text-indigo-600 hover:text-indigo-500"
                             onClick={() => setOpen(false)}
                           >
                             Continue Shopping

@@ -17,7 +17,8 @@ import { ShoppingCart } from "../ShoppingCart/ShoppingCart";
 export function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  const {open, setOpen} = useContext(SearchContext)
+
   // const handleProfile = () => {
   //   if (user.isDoctor) {
   //     navigate(DoctorProfileUrl(user.uid));
@@ -33,7 +34,7 @@ export function NavBar() {
 
   return (
     <>
-      <header className="bg-gray-100 sticky top-0 z-50">
+      <header className="bg-gray-100 sticky top-0 z-1">
         <nav
           className="mx-auto flex max-w-7xl items-center justify-between p-6 px-6 pt-6 lg:px-8"
           aria-label="Global"
