@@ -97,18 +97,18 @@ export function HomeView() {
 
   return (
     <>
-      <div class="flex justify-center pt-10">
-        <div class="mb-3 xl:w-96">
-          <div class="relative flex w-full flex-wrap items-stretch">
+      <div className="flex justify-center pt-10">
+        <div className="mb-3 xl:w-96">
+          <div className="relative flex w-full flex-wrap items-stretch">
             <input
               type="search"
-              class="relative m-0 -mr-px block w-[1%] min-w-0 flex-auto rounded-l border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-1.5 text-base font-normal text-neutral-700 outline-none transition duration-300 ease-in-out focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none "
-              placeholder="Search"
-              ariaLabel="Search"
-              ariaDescribedby="button-addon1"
+              className="relative m-0 -mr-px block w-[1%] min-w-0 flex-auto rounded-l border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-1.5 text-base font-normal text-neutral-700 outline-none transition duration-300 ease-in-out focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none "
+              placeholder="Search..."
+              aria-label="Search"
+              aria-describedby="button-addon1"
             />
             <button
-              class="relative z-[2] flex items-center rounded-r bg-primary bg-blue-600 px-6 py-2.5 text-xs hover:bg-blue-800 font-medium uppercase border border-neutral-500 leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
+              className="relative z-[2] flex items-center rounded-r bg-primary bg-indigo-600 px-6 py-2.5 text-xs hover:bg-indigo-800 font-medium uppercase border border-neutral-500 leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
               type="button"
               id="button-addon1"
             >
@@ -116,7 +116,7 @@ export function HomeView() {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
-                class="h-5 w-5"
+                className="h-5 w-5"
               >
                 <path
                   fillRule="evenodd"
@@ -159,7 +159,7 @@ export function HomeView() {
                 </li>
               ) : null}
               <li>
-                <div className="cursor-default px-3 py-2 leading-tight text-blue-600 border border-gray-300 bg-blue-50">
+                <div className="cursor-default px-3 py-2 leading-tight text-indigo-600 border border-gray-300 bg-blue-50">
                   {page}
                 </div>
               </li>
@@ -171,7 +171,7 @@ export function HomeView() {
               <li>
                 <button
                   onClick={handleNext}
-                  className="px-3 py-2 leading-tight text-white bg-blue-700 border border-gray-300 rounded-r-lg hover:bg-blue-900 hover:text-white "
+                  className="px-3 py-2 leading-tight text-white bg-indigo-600 border border-gray-300 rounded-r-lg hover:bg-indigo-800 hover:text-white "
                 >
                   Siguiente
                 </button>
