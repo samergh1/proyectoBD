@@ -5,6 +5,13 @@ import { LoginViewUrl } from "../../constants/url";
 import { useUserContext } from "../../contexts/userContext";
 import { logout } from "../../firebase/authentication/authentication";
 import ProductCard from "../../components/ProductCard/ProductCard";
+import {
+  addProduct,
+  addSize,
+  deleteProduct,
+  getProductById,
+  getSizes,
+} from "../../firebase/products/products";
 
 const movies = [
   {
@@ -58,34 +65,34 @@ export function HomeView() {
 
   const handlePrev = () => {
     setPage(page - 1);
-    if (option === 0) {
-      getMovies(page);
-    } else {
-      getUpcomingMovies(page);
-    }
   };
 
   const handleNext = () => {
     setPage(page + 1);
-    if (option === 0) {
-      getMovies(page);
-    } else {
-      getUpcomingMovies(page);
-    }
   };
 
-  // const getMovies = async (page) => {
-  //   const { data } = await fetchMovies(page);
-  //   setMovies(data.results);
-  // };
-
-  // const handleCommonMovies = () => {
-  //   if (option === 1) {
-  //     setPage(1);
-  //     getMovies(page);
-  //     setOption(0);
-  //   }
-  // };
+  const handleProduct = async () => {
+    // await addProduct({
+    //   name: "Camisa",
+    //   cost: "20",
+    //   color: "Black",
+    //   image: "jpg",
+    // });
+    // await addSize({
+    //   size: "S",
+    //   quantity: "60",
+    //   productId: "HstXnFMZhBQSVoXVP6P1",
+    // });
+    // await addSize({
+    //   size: "M",
+    //   quantity: "40",
+    //   productId: "HstXnFMZhBQSVoXVP6P1",
+    // });
+    // const product = await getProductById("HstXnFMZhBQSVoXVP6P1");
+    // console.log(product.data());
+    // await getSizes("HstXnFMZhBQSVoXVP6P1");
+    // await deleteProduct("HstXnFMZhBQSVoXVP6P1");
+  };
 
   useEffect(() => {
     // if (option === 0) {
@@ -97,6 +104,7 @@ export function HomeView() {
 
   return (
     <>
+      <button onClick={handleProduct}>Add product</button>
       <div class="flex justify-center pt-10">
         <div class="mb-3 xl:w-96">
           <div class="relative flex w-full flex-wrap items-stretch">
