@@ -1,60 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { NavBar } from "../../components/NavBar/NavBar";
 import { useNavigate } from "react-router-dom";
 import { LoginViewUrl } from "../../constants/url";
 import { useUserContext } from "../../contexts/userContext";
 import { logout } from "../../firebase/authentication/authentication";
 import ProductCard from "../../components/ProductCard/ProductCard";
+import { SearchContext } from "../../contexts/SearchContext";
+import { Loading } from "../../components/Loading";
 import {
   addProduct,
   addSize,
   deleteProduct,
   getProductById,
   getSizes,
+  updateProduct,
 } from "../../firebase/products/products";
-
-const movies = [
-  {
-    id: 1,
-    title: "Camisa",
-    popularity: "sdasd",
-    original_language: "asddafsf",
-  },
-  {
-    id: 2,
-    title: "Pantalon",
-    popularity: "sdasd",
-    original_language: "asddafsf",
-  },
-  {
-    id: 3,
-    title: "sad",
-    popularity: "sdasd",
-    original_language: "asddafsf",
-  },
-  {
-    id: 4,
-    title: "dress",
-    popularity: "sdasd",
-    original_language: "asddafsf",
-  },
-  {
-    id: 9,
-    title: "dress",
-    popularity: "sdasd",
-    original_language: "asddafsf",
-  },
-  {
-    id: 6,
-    title: "dress",
-    popularity: "sdasd",
-    original_language: "asddafsf",
-  },
-];
+import { data } from "browserslist";
 
 export function HomeView() {
   const navigate = useNavigate();
   const { user, isLoadingUser } = useUserContext();
+  const { loading, setQuery, products, setSelectedProduct, selectedProduct } =
+    useContext(SearchContext);
   const [page, setPage] = useState(1);
   const [option, setOption] = useState(0);
 
@@ -71,27 +38,41 @@ export function HomeView() {
     setPage(page + 1);
   };
 
-  const handleProduct = async () => {
-    await addProduct({
-      name: "Camisa",
-      cost: "20",
-      color: "Black",
-      image: "jpg",
+  const handleAddProduct = async ({
+    name: name,
+    cost: cost,
+    color: color,
+    image: image,
+    qtyS: qtyS,
+    qtyM: qtyM,
+    qtyL: qtyL,
+  }) => {
+    const reference = await addProduct({
+      name: name,
+      cost: cost,
+      color: color,
+      image: image,
     });
     await addSize({
       size: "S",
-      quantity: "60",
-      productId: "UVgHPbywvZLpjHMglIjq",
+      quantity: qtyS,
+      productId: reference.id,
     });
     await addSize({
       size: "M",
-      quantity: "40",
-      productId: "UVgHPbywvZLpjHMglIjq",
+      quantity: qtyM,
+      productId: reference.id,
     });
-    const product = await getProductById("UVgHPbywvZLpjHMglIjq");
-    console.log(product.data());
-    await getSizes("UVgHPbywvZLpjHMglIjq");
-    // await deleteProduct("HstXnFMZhBQSVoXVP6P1");
+    await addSize({
+      size: "L",
+      quantity: qtyL,
+      productId: reference.id,
+    });
+    const data = {
+      id: reference.id,
+    };
+    await updateProduct(reference.id, data);
+    await getSizes(reference.id);
   };
 
   useEffect(() => {
@@ -102,9 +83,27 @@ export function HomeView() {
     // }
   }, [page, option]);
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <>
-      <button onClick={handleProduct}>Add product</button>
+      <button
+        onClick={() => {
+          handleAddProduct({
+            name: "Camisa todo terreno",
+            cost: "100",
+            color: "black",
+            image: ".jpg",
+            qtyS: "10",
+            qtyM: "20",
+            qtyL: "5",
+          });
+        }}
+      >
+        Add product
+      </button>
       <div className="flex justify-center pt-10">
         <div className="mb-3 xl:w-96">
           <div className="relative flex w-full flex-wrap items-stretch">
@@ -141,8 +140,8 @@ export function HomeView() {
           <h1 className=" font-sans text-xl font-semibold">Products</h1>
 
           <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {movies.map((movie) => (
-              <ProductCard movie={movie} key={movie.id} />
+            {products.map((product, productId) => (
+              <ProductCard product={product} key={productId} />
             ))}
           </div>
         </div>

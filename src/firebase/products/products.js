@@ -10,11 +10,21 @@ import {
     doc,
     onSnapshot,
     deleteDoc,
+    updateDoc,
 } from "firebase/firestore";
+
+export const updateProduct = async (productId, data) =>{
+    try {
+        console.log("a")
+        await updateDoc(doc(db, "products", productId), data)
+    }catch(error){
+        console.log("Error updating product", error);
+    }
+}
 
 export const addProduct = async ({name, cost, color, image}) => {
     try {
-        await addDoc(collection(db, "products"), {
+        return await addDoc(collection(db, "products"), {
             name: name,
             cost: cost,
             color: color,

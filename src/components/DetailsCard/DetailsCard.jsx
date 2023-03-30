@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { HomeViewUrl } from "./../../constants/url";
 import { useUserContext } from "../../contexts/userContext";
 import { toast, Toaster } from "react-hot-toast";
+import { getSizes } from "../../firebase/products/products";
 const product = {
   name: "Basic Tee 6-Pack ",
   price: "$192",
@@ -35,7 +36,9 @@ const product = {
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-export function DetailsCard({ openDetail, setOpenDetail }) {
+export function DetailsCard({ openDetail, setOpenDetail, producto }) {
+  // const sizes = await getSizes(producto.id)
+
   function timeout(delay) {
     return new Promise((res) => setTimeout(res, delay));
   }
@@ -102,7 +105,7 @@ export function DetailsCard({ openDetail, setOpenDetail }) {
                       </div>
                       <div className="sm:col-span-8 lg:col-span-7">
                         <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
-                          {product.name}
+                          {producto.name}
                         </h2>
 
                         <section
