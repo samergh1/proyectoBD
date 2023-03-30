@@ -89,21 +89,6 @@ export function HomeView() {
 
   return (
     <>
-      <button
-        onClick={() => {
-          handleAddProduct({
-            name: "Camisa todo terreno",
-            cost: "100",
-            color: "black",
-            image: ".jpg",
-            qtyS: "10",
-            qtyM: "20",
-            qtyL: "5",
-          });
-        }}
-      >
-        Add product
-      </button>
       <div className="flex justify-center pt-10">
         <div className="mb-3 xl:w-96">
           <div className="relative flex w-full flex-wrap items-stretch">

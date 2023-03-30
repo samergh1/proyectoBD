@@ -9,7 +9,11 @@ import {
 } from "@iconscout/react-unicons";
 import { logout } from "../../firebase/authentication/authentication";
 import { useUserContext } from "../../contexts/userContext";
-import { LoginViewUrl, RegisterViewUrl } from "../../constants/url";
+import {
+  AddProductUrl,
+  LoginViewUrl,
+  RegisterViewUrl,
+} from "../../constants/url";
 import { SearchContext } from "../../contexts/SearchContext";
 import { ShoppingCart } from "../ShoppingCart/ShoppingCart";
 
@@ -39,7 +43,9 @@ export function NavBar() {
           {!isLoadingUser && !!user ? (
             <div className="flex gap-6 text-black font-bold items-center">
               {user.admin ? (
-                <UilPlusCircle className="text-indigo-500 cursor-pointer" />
+                <Link to={AddProductUrl}>
+                  <UilPlusCircle className="text-indigo-500 cursor-pointer" />
+                </Link>
               ) : (
                 <UilShoppingCart
                   className="text-indigo-500 cursor-pointer"
