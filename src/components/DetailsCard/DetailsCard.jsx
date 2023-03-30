@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Fragment, useState } from "react";
 import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 import { UilStar, UilTimes } from "@iconscout/react-unicons";
@@ -8,7 +8,8 @@ import { useUserContext } from "../../contexts/userContext";
 import { toast, Toaster } from "react-hot-toast";
 import { UpdateProduct } from "../../views/UpdateProductView/UpdateProduct";
 import { deleteProduct, getSizes } from "../../firebase/products/products";
-
+import { arrayUnion } from "@firebase/firestore";
+import { SearchContext } from "../../contexts/SearchContext";
 const product = {
   name: "Basic Tee 6-Pack ",
   cost: "$192",
@@ -33,23 +34,36 @@ function classNames(...classes) {
 }
 export function DetailsCard({ openDetail, setOpenDetail, producto }) {
   // const sizes = await getSizes(producto.id)
-
+  const { bag, setBag } = useContext(SearchContext);
+  const [search, setSearch] = useState(false);
+  const [sizes, setSizes] = useState([]);
   function timeout(delay) {
     return new Promise((res) => setTimeout(res, delay));
   }
 
   async function handleCart() {
-    await timeout(2000);
+    const qty = await getSizes(producto.id);
+    setSizes(qty);
+    const productData = {
+      id: producto.id,
+      name: producto.name,
+      cost: producto.cost,
+      image: producto.image,
+      qty: qty,
+    };
+
+    setBag((bag) => bag.concat(productData));
+    await timeout(1000);
     toast.success("Added to your cart :)");
-    await timeout(3000);
+    await timeout(1000);
     setOpenDetail(false);
   }
 
   async function handleDelete() {
     deleteProduct(producto.id);
-    await timeout(2000);
+    await timeout(1000);
     toast.success("Product deleted successfully");
-    await timeout(3000);
+    await timeout(1000);
     setOpenDetail(false);
   }
 
@@ -151,8 +165,10 @@ export function DetailsCard({ openDetail, setOpenDetail, producto }) {
                                   Size
                                 </h4>
                               </div>
-
-                              <RadioGroup
+                              {sizes.map((s) => {
+                                console.log(s.size);
+                              })}
+                              {/* <RadioGroup
                                 value={selectedSize}
                                 onChange={setSelectedSize}
                                 className="mt-4"
@@ -162,22 +178,23 @@ export function DetailsCard({ openDetail, setOpenDetail, producto }) {
                                   Choose a size{" "}
                                 </RadioGroup.Label>
                                 <div className="grid grid-cols-4 gap-4">
-                                  {product.sizes.map((size) => (
+                                  {sizes.map((size) => (
                                     <RadioGroup.Option
-                                      key={size.name}
+                                      // key={size.name}
                                       value={size}
-                                      disabled={!size.inStock}
-                                      className={({ active }) =>
-                                        classNames(
-                                          size.inStock
-                                            ? "cursor-pointer bg-white text-gray-900 shadow-sm"
-                                            : "cursor-not-allowed bg-gray-50 text-gray-200",
-                                          active
-                                            ? "ring-2 ring-indigo-500"
-                                            : "",
-                                          "group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1"
-                                        )
-                                      }
+                                      disabled={size.qty <= 0}
+                                      className="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1"
+                                      // className={({ active }) =>
+                                      //   classNames(
+                                      //     {size.qty <= 0}
+                                      //       ? "cursor-pointer bg-white text-gray-900 shadow-sm"
+                                      //       : "cursor-not-allowed bg-gray-50 text-gray-200",
+                                      //     active
+                                      //       ? "ring-2 ring-indigo-500"
+                                      //       : "",
+                                      //     "group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1"
+                                      //   )
+                                      // }
                                     >
                                       {({ active, checked }) => (
                                         <>
@@ -221,7 +238,7 @@ export function DetailsCard({ openDetail, setOpenDetail, producto }) {
                                     </RadioGroup.Option>
                                   ))}
                                 </div>
-                              </RadioGroup>
+                              </RadioGroup> */}
                             </div>
 
                             <div className="flex gap-3">
