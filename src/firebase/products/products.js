@@ -96,3 +96,20 @@ export const deleteProduct = async (productId) => {
         console.log("Error al borrar", error)
     }
 }
+
+export const createSale = async (data) =>{
+    try {
+        return await addDoc(collection(db, "sales"), data);
+    } catch (error) {
+        console.log("Error creating sale ", error);
+    }
+
+}
+
+export const updateUser = async (userId, data)=>{
+    try {
+        await updateDoc(doc(db, "users", userId), data);
+      } catch (error) {
+        console.error("Error updating user", error);
+      }
+}

@@ -6,13 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { HomeViewUrl, UpdateProductUrl } from "./../../constants/url";
 import { useUserContext } from "../../contexts/userContext";
 import { toast, Toaster } from "react-hot-toast";
-import { getSizes } from "../../firebase/products/products";
 import { UpdateProduct } from "../../views/UpdateProductView/UpdateProduct";
+import { deleteProduct, getSizes } from "../../firebase/products/products";
+
 const product = {
   name: "Basic Tee 6-Pack ",
-  price: "$192",
-  rating: 3.9,
-  reviewCount: 117,
+  cost: "$192",
   href: "#",
   imageSrc:
     "https://tailwindui.com/img/ecommerce-images/product-quick-preview-02-detail.jpg",
@@ -23,14 +22,9 @@ const product = {
     { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
   ],
   sizes: [
-    { name: "XXS", inStock: true },
-    { name: "XS", inStock: true },
     { name: "S", inStock: true },
     { name: "M", inStock: true },
     { name: "L", inStock: true },
-    { name: "XL", inStock: true },
-    { name: "XXL", inStock: true },
-    { name: "XXXL", inStock: false },
   ],
 };
 
@@ -39,18 +33,22 @@ function classNames(...classes) {
 }
 export function DetailsCard({ openDetail, setOpenDetail, producto }) {
   // const sizes = await getSizes(producto.id)
-  const { user, isLoadingUser } = useUserContext();
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
-  const navigate = useNavigate();
 
   function timeout(delay) {
     return new Promise((res) => setTimeout(res, delay));
   }
 
-  async function handlePayment() {
+  async function handleCart() {
     await timeout(2000);
-    toast.success("Payment successful :)");
+    toast.success("Added to your cart :)");
+    await timeout(3000);
+    setOpenDetail(false);
+  }
+
+  async function handleDelete() {
+    deleteProduct(producto.id);
+    await timeout(2000);
+    toast.success("Product deleted successfully");
     await timeout(3000);
     setOpenDetail(false);
   }
@@ -58,6 +56,11 @@ export function DetailsCard({ openDetail, setOpenDetail, producto }) {
   const handleEdit = () => {
     navigate(UpdateProductUrl(producto.id));
   };
+
+  const { user, isLoadingUser } = useUserContext();
+  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  const [selectedSize, setSelectedSize] = useState(product.sizes[1]);
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -88,7 +91,7 @@ export function DetailsCard({ openDetail, setOpenDetail, producto }) {
                 leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
               >
                 <Dialog.Panel className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
-                  <div className="relative flex w-full items-center overflow-hidden bg-white px-4 pt-14 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+                  <div className="relative flex w-full items-center h-full overflow-hidden bg-white px-4 pt-14 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
                     <button
                       type="button"
                       className="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8"
@@ -102,10 +105,10 @@ export function DetailsCard({ openDetail, setOpenDetail, producto }) {
                     </button>
 
                     <div className="grid w-full grid-cols-1 items-start gap-y-8 gap-x-6 sm:grid-cols-12 lg:gap-x-8">
-                      <div className="aspect-w-2 aspect-h-3 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5">
+                      <div className="aspect-w-2 h-full overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5">
                         <img
-                          src={product.imageSrc}
-                          alt={product.imageAlt}
+                          src={producto.image}
+                          alt={producto.name}
                           className="object-cover object-center"
                         />
                       </div>
@@ -123,112 +126,30 @@ export function DetailsCard({ openDetail, setOpenDetail, producto }) {
                           </h3>
 
                           <p className="text-2xl text-gray-900">
-                            {product.price}
+                            ${producto.cost}
                           </p>
-
-                          {/* Reviews */}
-                          <div className="mt-6">
-                            <h4 className="sr-only">Reviews</h4>
-                            <div className="flex items-center">
-                              <div className="flex items-center">
-                                {[0, 1, 2, 3, 4].map((rating) => (
-                                  <UilStar
-                                    key={rating}
-                                    className={classNames(
-                                      product.rating > rating
-                                        ? "text-gray-900"
-                                        : "text-gray-200",
-                                      "h-5 w-5 flex-shrink-0"
-                                    )}
-                                    aria-hidden="true"
-                                  />
-                                ))}
-                              </div>
-                              <p className="sr-only">
-                                {product.rating} out of 5 stars
-                              </p>
-                              <a
-                                href="#"
-                                className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                              >
-                                {product.reviewCount} reviews
-                              </a>
-                            </div>
-                          </div>
                         </section>
 
                         <section
                           aria-labelledby="options-heading"
                           className="mt-10"
                         >
-                          <h3 id="options-heading" className="sr-only">
-                            Product options
-                          </h3>
-
                           <div>
                             {/* Colors */}
-                            <div>
-                              <h4 className="text-sm font-medium text-gray-900">
-                                Color
+                            <div className="flex gap-8">
+                              <h4 className="text-xl font-bold text-gray-900">
+                                Color:
                               </h4>
-
-                              <RadioGroup
-                                value={selectedColor}
-                                onChange={setSelectedColor}
-                                className="mt-4"
-                              >
-                                <RadioGroup.Label className="sr-only">
-                                  {" "}
-                                  Choose a color{" "}
-                                </RadioGroup.Label>
-                                <span className="flex items-center space-x-3">
-                                  {product.colors.map((color) => (
-                                    <RadioGroup.Option
-                                      key={color.name}
-                                      value={color}
-                                      className={({ active, checked }) =>
-                                        classNames(
-                                          color.selectedClass,
-                                          active && checked
-                                            ? "ring ring-offset-1"
-                                            : "",
-                                          !active && checked ? "ring-2" : "",
-                                          "relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none"
-                                        )
-                                      }
-                                    >
-                                      <RadioGroup.Label
-                                        as="span"
-                                        className="sr-only"
-                                      >
-                                        {" "}
-                                        {color.name}{" "}
-                                      </RadioGroup.Label>
-                                      <span
-                                        aria-hidden="true"
-                                        className={classNames(
-                                          color.class,
-                                          "h-8 w-8 rounded-full border border-black border-opacity-10"
-                                        )}
-                                      />
-                                    </RadioGroup.Option>
-                                  ))}
-                                </span>
-                              </RadioGroup>
+                              <h4 className="text-lg font-medium text-gray-900">
+                                {producto.color}
+                              </h4>
                             </div>
-
                             {/* Sizes */}
                             <div className="mt-10">
                               <div className="flex items-center justify-between">
-                                <h4 className="text-sm font-medium text-gray-900">
+                                <h4 className="text-xl font-bold text-gray-900">
                                   Size
                                 </h4>
-                                <a
-                                  href="#"
-                                  className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                                >
-                                  Size guide
-                                </a>
                               </div>
 
                               <RadioGroup
@@ -306,7 +227,7 @@ export function DetailsCard({ openDetail, setOpenDetail, producto }) {
                             <div className="flex gap-3">
                               <button
                                 onClick={() => {
-                                  !user.admin ? handlePayment() : null;
+                                  !user.admin ? handleCart() : handleDelete();
                                 }}
                                 className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                               >
