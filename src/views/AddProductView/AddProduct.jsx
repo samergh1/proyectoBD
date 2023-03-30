@@ -196,13 +196,23 @@ export function AddProduct() {
                 />
               </div>
             </div>
-            <button
-              type="submit"
-              onClick={handleSubmit}
-              className="bg-blue-500 w-full text-white hover:scale-105 transition-all hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-            >
-              Create product
-            </button>
+            <div className="flex gap-4">
+              <button
+                type="submit"
+                onClick={handleSubmit}
+                className="bg-blue-500 w-full text-white hover:scale-105 transition-all hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              >
+                Create product
+              </button>
+              <button
+                onClick={() => {
+                  navigate(HomeViewUrl);
+                }}
+                className="bg-blue-500 w-full text-white hover:scale-105 transition-all hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              >
+                Go back
+              </button>
+            </div>
           </div>
         </div>
       </div>
