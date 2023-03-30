@@ -72,26 +72,26 @@ export function HomeView() {
   };
 
   const handleProduct = async () => {
-    await addProduct({
-      name: "Camisa",
-      cost: "20",
-      color: "Black",
-      image: "jpg",
-    });
-    await addSize({
-      size: "S",
-      quantity: "60",
-      productId: "UVgHPbywvZLpjHMglIjq",
-    });
-    await addSize({
-      size: "M",
-      quantity: "40",
-      productId: "UVgHPbywvZLpjHMglIjq",
-    });
-    const product = await getProductById("UVgHPbywvZLpjHMglIjq");
-    console.log(product.data());
-    await getSizes("UVgHPbywvZLpjHMglIjq");
-    // await deleteProduct("HstXnFMZhBQSVoXVP6P1");
+    // await addProduct({
+    //   name: "Camisa",
+    //   cost: "20",
+    //   color: "Black",
+    //   image: "jpg",
+    // });
+    // await addSize({
+    //   size: "S",
+    //   quantity: "60",
+    //   productId: "YLdMA7jyEeoXrvOxBOmI",
+    // });
+    // await addSize({
+    //   size: "M",
+    //   quantity: "40",
+    //   productId: "YLdMA7jyEeoXrvOxBOmI",
+    // });
+    // const product = await getProductById("YLdMA7jyEeoXrvOxBOmI");
+    // console.log(product.data());
+    // await getSizes("YLdMA7jyEeoXrvOxBOmI");
+    // await deleteProduct("YLdMA7jyEeoXrvOxBOmI");
   };
 
   useEffect(() => {
@@ -104,7 +104,6 @@ export function HomeView() {
 
   return (
     <>
-      <button onClick={handleProduct}>Add product</button>
       <div className="flex justify-center pt-10">
         <div className="mb-3 xl:w-96">
           <div className="relative flex w-full flex-wrap items-stretch">
