@@ -15,11 +15,9 @@ export default function ProductCard({ product }) {
       >
         <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
           <img
-            //   src={`${imgUrl}${movie.poster_path}`}
-            // scr={product.image}
-            scr="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80"
+            src={product.image}
             alt={product.name}
-            className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+            className="h-full w-full object-cover object-center lg:h-full lg:w-full border rounded-md"
           />
         </div>
         <div className="mt-4 flex justify-between">
@@ -33,7 +31,7 @@ export default function ProductCard({ product }) {
             <p className="text-sm font-medium text-gray-900">
               Price: {product.cost}
             </p>
-            <p className="text-sm text-gray-500">No se que agregar</p>
+            <p className="text-sm text-gray-500">Color: {product.color}</p>
           </div>
         </div>
       </div>

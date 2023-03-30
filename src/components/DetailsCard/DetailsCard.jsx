@@ -3,10 +3,11 @@ import { Fragment, useState } from "react";
 import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 import { UilStar, UilTimes } from "@iconscout/react-unicons";
 import { useNavigate } from "react-router-dom";
-import { HomeViewUrl } from "./../../constants/url";
+import { HomeViewUrl, UpdateProductUrl } from "./../../constants/url";
 import { useUserContext } from "../../contexts/userContext";
 import { toast, Toaster } from "react-hot-toast";
 import { getSizes } from "../../firebase/products/products";
+import { UpdateProduct } from "../../views/UpdateProductView/UpdateProduct";
 const product = {
   name: "Basic Tee 6-Pack ",
   price: "$192",
@@ -38,6 +39,10 @@ function classNames(...classes) {
 }
 export function DetailsCard({ openDetail, setOpenDetail, producto }) {
   // const sizes = await getSizes(producto.id)
+  const { user, isLoadingUser } = useUserContext();
+  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
+  const navigate = useNavigate();
 
   function timeout(delay) {
     return new Promise((res) => setTimeout(res, delay));
@@ -49,10 +54,11 @@ export function DetailsCard({ openDetail, setOpenDetail, producto }) {
     await timeout(3000);
     setOpenDetail(false);
   }
-  const { user, isLoadingUser } = useUserContext();
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
-  const navigate = useNavigate();
+
+  const handleEdit = () => {
+    navigate(UpdateProductUrl(producto.id));
+  };
+
   return (
     <div>
       <Toaster />
@@ -308,7 +314,7 @@ export function DetailsCard({ openDetail, setOpenDetail, producto }) {
                               </button>
                               {user.admin ? (
                                 <button
-                                  type="submit"
+                                  onClick={handleEdit}
                                   className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                 >
                                   Edit

@@ -13,12 +13,19 @@ import {
     updateDoc,
 } from "firebase/firestore";
 
-export const updateProduct = async (productId, data) =>{
+export const updateProduct = async (productId, data) => {
     try {
-        console.log("a")
         await updateDoc(doc(db, "products", productId), data)
-    }catch(error){
+    } catch(error) {
         console.log("Error updating product", error);
+    }
+}
+
+export const updateSize = async (productId, sizeId, data) => {
+    try {
+        await updateDoc(doc(db, "products", productId, "sizes", sizeId), data)
+    } catch(error) {
+        console.log("Error updating sizes" + error);
     }
 }
 
@@ -55,7 +62,8 @@ export const getAllProducts = async () => {
 
 export const getProductById = async (productId) => {
     const productRef = doc(db, "products", productId);
-    return getDoc(productRef);
+    const result = await getDoc(productRef);
+    return result.data();
 }
 
 export const addSize = async ({size, quantity, productId}) => {
