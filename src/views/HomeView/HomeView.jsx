@@ -20,8 +20,15 @@ import { data } from "browserslist";
 export function HomeView() {
   const navigate = useNavigate();
   const { user, isLoadingUser } = useUserContext();
-  const { loading, setQuery, products, setSelectedProduct, selectedProduct } =
-    useContext(SearchContext);
+  const {
+    loading,
+    setQuery,
+    products,
+    setSelectedProduct,
+    selectedProduct,
+    handleSearch,
+    filterProducts,
+  } = useContext(SearchContext);
   const [page, setPage] = useState(1);
   const [option, setOption] = useState(0);
 
@@ -94,6 +101,9 @@ export function HomeView() {
           <div className="relative flex w-full flex-wrap items-stretch">
             <input
               type="search"
+              onChange={(e) => {
+                handleSearch(e.target.value);
+              }}
               className="relative m-0 -mr-px block w-[1%] min-w-0 flex-auto rounded-l border border-solid border-neutral-500 bg-transparent bg-clip-padding px-3 py-1.5 text-base font-normal text-neutral-700 outline-none transition duration-300 ease-in-out focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none "
               placeholder="Search..."
               aria-label="Search"
@@ -125,14 +135,14 @@ export function HomeView() {
           <h1 className=" font-sans text-xl font-semibold">Products</h1>
 
           <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {products.map((product, productId) => (
+            {filterProducts.map((product, productId) => (
               <ProductCard product={product} key={productId} />
             ))}
           </div>
         </div>
         <div className="gap-3 sm:gap-0 float-center">
           {/* Pages */}
-          <div className="flex gap-4 justify-center items-center py-5 px-10 ">
+          {/* <div className="flex gap-4 justify-center items-center py-5 px-10 ">
             <ul className="inline-flex -space-x-px items-center">
               <li>
                 <button
@@ -169,7 +179,7 @@ export function HomeView() {
                 </button>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

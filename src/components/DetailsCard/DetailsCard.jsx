@@ -165,10 +165,12 @@ export function DetailsCard({ openDetail, setOpenDetail, producto }) {
                                   Size
                                 </h4>
                               </div>
-                              {sizes.map((s) => {
-                                console.log(s.size);
-                              })}
-                              {/* <RadioGroup
+                              {/* <div className="flex gap-3 justify-center items-center">
+                                {sizes.map((s) => (
+                                  <p>{s.size}</p>
+                                ))}
+                              </div> */}
+                              <RadioGroup
                                 value={selectedSize}
                                 onChange={setSelectedSize}
                                 className="mt-4"
@@ -178,23 +180,22 @@ export function DetailsCard({ openDetail, setOpenDetail, producto }) {
                                   Choose a size{" "}
                                 </RadioGroup.Label>
                                 <div className="grid grid-cols-4 gap-4">
-                                  {sizes.map((size) => (
+                                  {product.sizes.map((size) => (
                                     <RadioGroup.Option
-                                      // key={size.name}
+                                      key={size.name}
                                       value={size}
-                                      disabled={size.qty <= 0}
-                                      className="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1"
-                                      // className={({ active }) =>
-                                      //   classNames(
-                                      //     {size.qty <= 0}
-                                      //       ? "cursor-pointer bg-white text-gray-900 shadow-sm"
-                                      //       : "cursor-not-allowed bg-gray-50 text-gray-200",
-                                      //     active
-                                      //       ? "ring-2 ring-indigo-500"
-                                      //       : "",
-                                      //     "group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1"
-                                      //   )
-                                      // }
+                                      disabled={!size.inStock}
+                                      className={({ active }) =>
+                                        classNames(
+                                          size.inStock
+                                            ? "cursor-pointer bg-white text-gray-900 shadow-sm"
+                                            : "cursor-not-allowed bg-gray-50 text-gray-200",
+                                          active
+                                            ? "ring-2 ring-indigo-500"
+                                            : "",
+                                          "group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1"
+                                        )
+                                      }
                                     >
                                       {({ active, checked }) => (
                                         <>
@@ -238,7 +239,7 @@ export function DetailsCard({ openDetail, setOpenDetail, producto }) {
                                     </RadioGroup.Option>
                                   ))}
                                 </div>
-                              </RadioGroup> */}
+                              </RadioGroup>
                             </div>
 
                             <div className="flex gap-3">

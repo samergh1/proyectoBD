@@ -10,7 +10,7 @@ import {
   getProductById,
   updateUser,
 } from "../../firebase/products/products";
-import { arrayUnion } from "@firebase/firestore";
+import { arrayUnion, serverTimestamp } from "@firebase/firestore";
 import { SearchContext } from "../../contexts/SearchContext";
 
 export function ShoppingCart({ open, setOpen }) {
@@ -19,9 +19,9 @@ export function ShoppingCart({ open, setOpen }) {
   const [bagIds, setBagIds] = useState([]);
   const { bag, setBag } = useContext(SearchContext);
   const { user, isLoadingUser } = useUserContext();
-  useEffect(() => {
-    tonta();
-  }, [bagIds]);
+  // useEffect(() => {
+  //   tonta();
+  // }, []);
 
   function timeout(delay) {
     return new Promise((res) => setTimeout(res, delay));
@@ -35,10 +35,15 @@ export function ShoppingCart({ open, setOpen }) {
   }
   async function handleSale() {
     tonta();
-    const bagIds = [];
-    bag.map((pr) => setBagIds((bagIds) => [...bagIds, pr.id]));
+    bag.map((pr) => {
+      setBagIds(bagIds.push(pr.id));
+    });
     console.log("a");
-    const data = { idUsuario: user.id, products: bagIds };
+    const data = {
+      idUsuario: user.id,
+      products: bagIds,
+      date: serverTimestamp(),
+    };
     const reference = await createSale(data);
     // const dataUser = {
     //   sales: arrayUnion(reference.id),
