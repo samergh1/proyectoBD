@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Fragment, useState } from "react";
 import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 import { UilStar, UilTimes } from "@iconscout/react-unicons";
@@ -7,6 +7,8 @@ import { HomeViewUrl } from "./../../constants/url";
 import { useUserContext } from "../../contexts/userContext";
 import { toast, Toaster } from "react-hot-toast";
 import { deleteProduct, getSizes } from "../../firebase/products/products";
+import { arrayUnion } from "@firebase/firestore";
+import { SearchContext } from "../../contexts/SearchContext";
 const product = {
   name: "Basic Tee 6-Pack ",
   cost: "$192",
@@ -31,12 +33,24 @@ function classNames(...classes) {
 }
 export function DetailsCard({ openDetail, setOpenDetail, producto }) {
   // const sizes = await getSizes(producto.id)
+  const { setBag, bag } = useContext(SearchContext);
 
   function timeout(delay) {
     return new Promise((res) => setTimeout(res, delay));
   }
 
   async function handleCart() {
+    const qty = await getSizes(producto.id);
+
+    const productData = {
+      id: producto.id,
+      name: producto.name,
+      cost: producto.cost,
+      image: producto.image,
+      qty: qty,
+    };
+
+    setBag((bag) => bag.concat(productData));
     await timeout(2000);
     toast.success("Added to your cart :)");
     await timeout(3000);

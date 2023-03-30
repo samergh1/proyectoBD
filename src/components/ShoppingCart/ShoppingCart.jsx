@@ -5,39 +5,45 @@ import { Dialog, Transition } from "@headlessui/react";
 import { UilTimes } from "@iconscout/react-unicons";
 import { toast, Toaster } from "react-hot-toast";
 import { useUserContext } from "../../contexts/userContext";
-import { createSale, updateUser } from "../../firebase/products/products";
+import {
+  createSale,
+  getProductById,
+  updateUser,
+} from "../../firebase/products/products";
 import { arrayUnion } from "@firebase/firestore";
+import { SearchContext } from "../../contexts/SearchContext";
 
-const products = [
-  {
-    id: 1,
-    name: "Throwback Hip Bag",
-    href: "#",
-    color: "Salmon",
-    price: "$90.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
-    imageAlt:
-      "Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
-  },
-  {
-    id: 2,
-    name: "Medium Stuff Satchel",
-    href: "#",
-    color: "Blue",
-    price: "$32.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-    imageAlt:
-      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-  },
-  // More products...
-];
+// const products = [
+//   {
+//     id: 1,
+//     name: "Throwback Hip Bag",
+//     href: "#",
+//     color: "Salmon",
+//     price: "$90.00",
+//     quantity: 1,
+//     imageSrc:
+//       "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
+//     imageAlt:
+//       "Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
+//   },
+//   {
+//     id: 2,
+//     name: "Medium Stuff Satchel",
+//     href: "#",
+//     color: "Blue",
+//     price: "$32.00",
+//     quantity: 1,
+//     imageSrc:
+//       "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
+//     imageAlt:
+//       "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
+//   },
+//   // More products...
+// ];
 
 export function ShoppingCart({ open, setOpen }) {
   // const [open, setOpen] = useState(true);
+  const { bag, setBag } = useContext(SearchContext);
   const { user, isLoadingUser } = useUserContext();
   function timeout(delay) {
     return new Promise((res) => setTimeout(res, delay));
@@ -54,6 +60,10 @@ export function ShoppingCart({ open, setOpen }) {
     await timeout(3000);
     setOpen(false);
   }
+
+  const handleMap = async (producto) => {
+    return await getProductById(producto);
+  };
 
   return (
     <>
@@ -112,16 +122,15 @@ export function ShoppingCart({ open, setOpen }) {
                               role="list"
                               className="-my-6 divide-y divide-gray-200"
                             >
-                              {products.map((product) => (
+                              {bag.map((product) => (
                                 <li key={product.id} className="flex py-6">
                                   <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                     <img
-                                      src={product.imageSrc}
-                                      alt={product.imageAlt}
+                                      src={product.image}
+                                      alt={product.name}
                                       className="h-full w-full object-cover object-center"
                                     />
                                   </div>
-
                                   <div className="ml-4 flex flex-1 flex-col">
                                     <div>
                                       <div className="flex justify-between text-base font-medium text-gray-900">
@@ -137,10 +146,6 @@ export function ShoppingCart({ open, setOpen }) {
                                       </p>
                                     </div>
                                     <div className="flex flex-1 items-end justify-between text-sm">
-                                      <p className="text-gray-500">
-                                        Qty {product.quantity}
-                                      </p>
-
                                       <div className="flex">
                                         <button
                                           type="button"
@@ -167,7 +172,13 @@ export function ShoppingCart({ open, setOpen }) {
                           Shipping and taxes calculated at checkout.
                         </p>
                         <div className="flex justify-center">
-                          <button className="mt-6" onClick={() => handleSale()}>
+                          <button
+                            className="mt-6"
+                            onClick={() => {
+                              handleSale();
+                              setBag([]);
+                            }}
+                          >
                             <p className="w-full flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
                               Checkout
                             </p>

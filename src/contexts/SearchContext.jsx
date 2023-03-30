@@ -9,6 +9,8 @@ export function SearchContextProvider({ children }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedProduct, setSelectedProduct] = useState({});
+  const [bag, setBag] = useState([]);
+
   const getProducts = async () => {
     const data = await getAllProducts();
     setProducts(data);
@@ -30,6 +32,8 @@ export function SearchContextProvider({ children }) {
         setQuery,
         setSelectedProduct,
         selectedProduct,
+        setBag,
+        bag,
       }}
     >
       {children}
